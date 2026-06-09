@@ -52,14 +52,14 @@ export function HeroCarousel() {
               key={slide.image}
               className="relative min-w-0 shrink-0 grow-0 basis-full"
             >
-              <div className="relative aspect-[4/5] max-h-[52vh] w-full sm:aspect-[16/10] sm:max-h-[58vh]">
+              <div className="relative aspect-[4/5] max-h-[52vh] w-full sm:aspect-[16/10] sm:max-h-[58vh] lg:aspect-[21/9] lg:max-h-[40vh]">
                 <Image
                   src={slide.image}
                   alt={slide.titleAr}
                   fill
                   className="object-cover"
                   priority={index === 0}
-                  sizes="100vw"
+                  sizes="(max-width: 1024px) 100vw, 950px"
                 />
               </div>
               <div className="absolute inset-x-0 bottom-0 z-20 p-5 pb-8">

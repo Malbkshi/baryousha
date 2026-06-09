@@ -12,15 +12,24 @@ export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    if (item) setQuantity(1);
+    if (item) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [item]);
 
   if (!item) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 backdrop-blur-sm sm:items-center p-4 transition-opacity">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 backdrop-blur-sm sm:items-center p-4 transition-opacity cursor-pointer animate-in fade-in duration-200"
+    >
       <div 
-        className="w-full max-w-md animate-in slide-in-from-bottom-10 fade-in duration-300 overflow-hidden rounded-3xl bg-zinc-900 border border-white/10 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md animate-in slide-in-from-bottom-10 fade-in duration-300 overflow-hidden rounded-3xl bg-zinc-900 border border-white/10 shadow-2xl cursor-default"
       >
         <div className="relative aspect-square w-full bg-zinc-800">
           <button

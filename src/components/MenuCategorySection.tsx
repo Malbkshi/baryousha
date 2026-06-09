@@ -21,7 +21,7 @@ export function MenuCategorySection({ category, onItemClick }: MenuCategorySecti
         </span>
       </div>
 
-      <ul className="rounded-xl border border-amber-600/20 bg-zinc-900/50 px-4">
+      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 rounded-xl border border-amber-600/20 bg-zinc-900/50 px-4 py-2">
         {category.items.map((item) => (
           <MenuListRow key={item.id} item={item} onClick={() => onItemClick(item)} />
         ))}

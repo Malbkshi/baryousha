@@ -8,11 +8,11 @@ export function FeaturedCroissants() {
       <h3 className="mb-3 text-sm font-medium text-amber-200/80">
         الأكثر طلباً
       </h3>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
         {heroSlides.map((slide) => (
           <article
             key={slide.image}
-            className="overflow-hidden rounded-xl border border-amber-600/30 bg-zinc-900/80"
+            className="overflow-hidden rounded-xl border border-amber-600/30 bg-zinc-900/80 transition-all hover:border-amber-500/50 hover:scale-[1.02]"
           >
             <div className="relative aspect-[4/3]">
               <Image
@@ -20,7 +20,7 @@ export function FeaturedCroissants() {
                 alt={slide.titleAr}
                 fill
                 className="object-cover"
-                sizes="50vw"
+                sizes="(max-width: 1024px) 50vw, 240px"
               />
             </div>
             <div className="p-3">

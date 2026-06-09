@@ -12,7 +12,7 @@ export function BottomNav({ onMenuClick }: BottomNavProps) {
   };
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 border-t border-amber-600/20 bg-[#0a0a0a]/95 backdrop-blur-md">
+    <nav className="fixed bottom-0 inset-x-0 z-40 border-t border-amber-600/20 bg-[#0a0a0a]/95 backdrop-blur-md lg:hidden">
       <div className="mx-auto flex max-w-lg items-center justify-around px-4 py-3">
         <button
           type="button"

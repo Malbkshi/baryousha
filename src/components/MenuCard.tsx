@@ -3,9 +3,14 @@ import type { MenuItem } from "@/data/menu";
 import { formatPrice } from "@/lib/formatPrice";
 import { ItemPlaceholder } from "@/lib/itemPlaceholder";
 
-export function MenuCard({ item }: { item: MenuItem }) {
+export function MenuCard({ item, onClick }: { item: MenuItem; onClick?: () => void }) {
   return (
-    <article className="flex h-full min-w-[260px] max-w-[280px] flex-col overflow-hidden rounded-2xl border border-amber-600/30 bg-zinc-900/90 shadow-lg shadow-black/40">
+    <article
+      onClick={onClick}
+      className={`flex h-full w-full flex-col overflow-hidden rounded-2xl border border-amber-600/30 bg-zinc-900/90 shadow-lg shadow-black/40 transition-all ${
+        onClick ? "cursor-pointer hover:border-amber-500/50 hover:scale-[1.02] active:scale-[0.98]" : ""
+      }`}
+    >
       {item.image ? (
         <div className="relative h-36 w-full">
           <Image

@@ -5,7 +5,7 @@ export function MenuListRow({ item, onClick }: { item: MenuItem; onClick: () => 
   return (
     <li 
       onClick={onClick}
-      className="flex cursor-pointer items-center gap-4 border-b border-zinc-800/80 py-4 last:border-0 transition-colors hover:bg-white/[0.04] active:bg-white/[0.08] px-2 -mx-2 rounded-lg"
+      className="flex cursor-pointer items-center gap-4 border-b border-zinc-800/80 py-4 last:border-b-0 lg:[&:nth-last-child(-n+2)]:border-b-0 transition-colors hover:bg-white/[0.04] active:bg-white/[0.08] px-2 -mx-2 rounded-lg"
     >
       {item.image && (
         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-zinc-800 shadow-lg">
