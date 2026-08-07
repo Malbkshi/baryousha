@@ -15,15 +15,28 @@ export function CategoryTabs({ activeId, onChange }: CategoryTabsProps) {
 
   // As you scroll the page the active tab can end up off-screen in this
   // horizontal strip. Bring it back into view whenever it changes.
+  //
+  // This must only ever move the strip, never the page. scrollIntoView() walks
+  // up to the document, and because the strip is `sticky` the browser aims at
+  // its unstuck layout position — so it dragged the whole page back to the top
+  // of the menu every time the active category changed, which made everything
+  // below the first section unreachable. Scrolling the container by a relative
+  // delta keeps the page out of it, and stays correct under RTL, where the sign
+  // and range of scrollLeft differ between browsers.
   useEffect(() => {
-    const tab = listRef.current?.querySelector<HTMLElement>(
-      `[data-category="${activeId}"]`
-    );
-    tab?.scrollIntoView({
-      behavior: scrollBehavior(),
-      block: "nearest",
-      inline: "center",
-    });
+    const list = listRef.current;
+    const tab = list?.querySelector<HTMLElement>(`[data-category="${activeId}"]`);
+    if (!list || !tab) return;
+
+    const listRect = list.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const delta =
+      tabRect.left + tabRect.width / 2 - (listRect.left + listRect.width / 2);
+
+    // Sub-pixel deltas aren't worth a scroll event.
+    if (Math.abs(delta) < 1) return;
+
+    list.scrollBy({ left: delta, behavior: scrollBehavior() });
   }, [activeId]);
 
   const scrollToCategory = (id: string) => {
