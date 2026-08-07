@@ -5,12 +5,20 @@
   --foreground: #fafafa;
   --gold: #c9a227;
   --gold-light: #e8c547;
+
+  /* One motion language: a single easing curve and three speeds.
+     Keep every transition on this scale so the UI feels like one system. */
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-cairo), system-ui, sans-serif;
+  --ease-brand: var(--ease-brand);
 }
 
 body {
@@ -41,4 +49,158 @@ body {
       rgba(201, 162, 39, 0.03) 0%,
       transparent 50%
     );
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion                                                              */
+/* Only opacity and transform are animated so nothing triggers layout. */
+/* ------------------------------------------------------------------ */
+
+@keyframes motion-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes motion-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Mobile dialogs come up as a sheet from the bottom edge. */
+@keyframes motion-sheet-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes motion-sheet-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+/* From sm up the same dialog is centred, so it scales in place instead. */
+@keyframes motion-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes motion-dialog-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0) scale(0.98);
+  }
+}
+
+@keyframes motion-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.motion-overlay-in {
+  animation: motion-fade-in var(--motion-base) var(--ease-brand) both;
+}
+
+.motion-overlay-out {
+  animation: motion-fade-out var(--motion-fast) var(--ease-brand) both;
+}
+
+.motion-panel-in {
+  animation: motion-sheet-in var(--motion-slow) var(--ease-brand) both;
+}
+
+.motion-panel-out {
+  animation: motion-sheet-out var(--motion-fast) var(--ease-brand) both;
+}
+
+@media (min-width: 640px) {
+  .motion-panel-in {
+    animation-name: motion-dialog-in;
+    animation-duration: var(--motion-base);
+  }
+
+  .motion-panel-out {
+    animation-name: motion-dialog-out;
+  }
+}
+
+/* Small acknowledgement for a value that changed in place. */
+.motion-pop {
+  animation: motion-pop var(--motion-base) var(--ease-brand);
+}
+
+/* Scroll reveal. Hidden until an IntersectionObserver flips data-revealed,
+   so the no-JS fallback in the layout must keep this readable. */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity var(--motion-slow) var(--ease-brand),
+    transform var(--motion-slow) var(--ease-brand);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

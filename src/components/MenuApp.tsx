@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HeroCarousel } from "./HeroCarousel";
 import { CategoryTabs } from "./CategoryTabs";
 import { MenuCategorySection } from "./MenuCategorySection";
@@ -13,6 +13,8 @@ import { FeaturedCroissants } from "./FeaturedCroissants";
 import { ScrollText, MapPin, Phone, Clock, Truck } from "lucide-react";
 import { ItemDetailsModal } from "./ItemDetailsModal";
 import { CategoryIcon } from "@/lib/categoryIcon";
+import { Reveal } from "./Reveal";
+import { scrollToId } from "@/lib/motion";
 
 export function MenuApp() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
@@ -44,9 +46,11 @@ export function MenuApp() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const scrollToMenu = () => {
-    document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Stable identities so the dialogs' Escape/close timers aren't torn down
+  // and rebuilt on every render.
+  const scrollToMenu = useCallback(() => scrollToId("menu"), []);
+  const closeFullMenu = useCallback(() => setMenuOpen(false), []);
+  const closeItem = useCallback(() => setSelectedItem(null), []);
 
   return (
     <div className="mx-auto max-w-7xl px-0 sm:px-4 lg:px-8 py-0 sm:py-6 lg:py-10">
@@ -72,9 +76,10 @@ export function MenuApp() {
                     type="button"
                     onClick={() => {
                       setActiveCategory(category.id);
-                      document.getElementById(`category-${category.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      scrollToId(`category-${category.id}`);
                     }}
-                    className={`flex items-center justify-between w-full rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                    aria-current={isActive ? "true" : undefined}
+                    className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition duration-200 ease-brand active:scale-[0.98] ${
                       isActive
                         ? "bg-amber-500 text-black shadow-md shadow-amber-900/20"
                         : "text-zinc-300 hover:bg-zinc-800/50 hover:text-amber-200"
@@ -151,7 +156,7 @@ export function MenuApp() {
                 <button
                   type="button"
                   onClick={() => setMenuOpen(true)}
-                  className="hidden lg:flex items-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-xs font-semibold text-amber-200 transition-colors hover:bg-amber-500/20"
+                  className="hidden items-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-xs font-semibold text-amber-200 transition duration-200 ease-brand hover:bg-amber-500/20 active:scale-[0.98] lg:flex"
                 >
                   <ScrollText className="h-4 w-4" />
                   عرض قائمة الأسعار الكاملة
@@ -172,11 +177,12 @@ export function MenuApp() {
 
               <div className="mt-8 flex flex-col gap-12 lg:gap-16">
                 {categories.map((category) => (
-                  <MenuCategorySection 
-                    key={category.id} 
-                    category={category} 
-                    onItemClick={setSelectedItem} 
-                  />
+                  <Reveal key={category.id}>
+                    <MenuCategorySection
+                      category={category}
+                      onItemClick={setSelectedItem}
+                    />
+                  </Reveal>
                 ))}
               </div>
 
@@ -185,7 +191,7 @@ export function MenuApp() {
                 <button
                   type="button"
                   onClick={() => setMenuOpen(true)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 py-3.5 text-sm font-medium text-amber-200 transition-colors hover:bg-amber-500/20"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 py-3.5 text-sm font-medium text-amber-200 transition duration-200 ease-brand hover:bg-amber-500/20 active:scale-[0.98]"
                 >
                   <ScrollText className="h-4 w-4" />
                   عرض قائمة الأسعار الكاملة (صورة)
@@ -195,15 +201,21 @@ export function MenuApp() {
 
             {/* About section, shown below on mobile, hidden on desktop since sidebar has all the info */}
             <div className="lg:hidden">
-              <AboutSection />
+              <Reveal>
+                <AboutSection />
+              </Reveal>
             </div>
           </main>
         </div>
       </div>
 
       <BottomNav onMenuClick={scrollToMenu} />
-      <FullMenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <ItemDetailsModal key={selectedItem?.id ?? "closed"} item={selectedItem} onClose={() => setSelectedItem(null)} />
+      <FullMenuModal open={menuOpen} onClose={closeFullMenu} />
+      <ItemDetailsModal
+        key={selectedItem?.id ?? "closed"}
+        item={selectedItem}
+        onClose={closeItem}
+      />
     </div>
   );
 }

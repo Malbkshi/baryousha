@@ -21,6 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full`}>
+      <head>
+        {/* Scroll-reveal starts hidden and is unhidden by JS, so keep the
+            menu readable when scripts never run. */}
+        <noscript>
+          <style>{`.reveal{opacity:1;transform:none}`}</style>
+        </noscript>
+      </head>
       <body className="pattern-bg min-h-full font-sans text-white antialiased">
         {children}
       </body>

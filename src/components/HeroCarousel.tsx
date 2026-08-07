@@ -19,6 +19,23 @@ export function HeroCarousel() {
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
+  // Autoplay is unrequested motion — hold it still for anyone who opted out.
+  useEffect(() => {
+    if (!emblaApi) return;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const apply = () => {
+      const autoplay = emblaApi.plugins().autoplay;
+      if (!autoplay) return;
+      if (query.matches) autoplay.stop();
+      else autoplay.play();
+    };
+
+    apply();
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
+  }, [emblaApi]);
+
   useEffect(() => {
     if (!emblaApi) return;
     emblaApi.on("select", onSelect);
@@ -83,11 +100,12 @@ export function HeroCarousel() {
             key={index}
             type="button"
             aria-label={`الشريحة ${index + 1}`}
+            aria-current={index === selectedIndex ? "true" : undefined}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`h-1.5 rounded-full transition-all ${
+            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-brand ${
               index === selectedIndex
                 ? "w-6 bg-amber-400"
-                : "w-1.5 bg-white/40"
+                : "w-1.5 bg-white/40 hover:bg-white/70"
             }`}
           />
         ))}
