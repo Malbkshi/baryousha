@@ -119,7 +119,7 @@
           "nameEn": "Mango & Strawberry",
           "nameAr": "مانجو وفراولة",
           "price": 6,
-          "image": "/images/milkshake-strawberry-mango.jpg"
+          "image": "/images/milkshake-mixed-mango-strawberry.jpg"
         },
         {
           "id": "m6",
@@ -147,7 +147,7 @@
           "nameEn": "Banana, Date & Almond",
           "nameAr": "موز وتمر ولوز",
           "price": 6,
-          "image": "/images/milkshake-banana-date.jpg"
+          "image": "/images/milkshake-banana.jpg"
         }
       ]
     },
