@@ -91,63 +91,63 @@
           "nameEn": "Strawberry",
           "nameAr": "فراولة",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-strawberry.jpg"
         },
         {
           "id": "m2",
           "nameEn": "Banana",
           "nameAr": "موز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-banana.jpg"
         },
         {
           "id": "m3",
           "nameEn": "Date & Almond",
           "nameAr": "تمر ولوز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-date.jpg"
         },
         {
           "id": "m4",
           "nameEn": "Mango",
           "nameAr": "مانجو",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-mango.jpg"
         },
         {
           "id": "m5",
           "nameEn": "Mango & Strawberry",
           "nameAr": "مانجو وفراولة",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-strawberry-mango.jpg"
         },
         {
           "id": "m6",
           "nameEn": "Strawberry, Date & Almond",
           "nameAr": "فراولة وتمر ولوز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-strawberry.jpg"
         },
         {
           "id": "m7",
           "nameEn": "Mango & Banana",
           "nameAr": "مانجو وموز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-mango.jpg"
         },
         {
           "id": "m8",
           "nameEn": "Mango, Date & Almond",
           "nameAr": "مانجو وتمر ولوز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-mango.jpg"
         },
         {
           "id": "m9",
           "nameEn": "Banana, Date & Almond",
           "nameAr": "موز وتمر ولوز",
           "price": 6,
-          "image": "/images/milkshake-lineup.jpg"
+          "image": "/images/milkshake-banana-date.jpg"
         }
       ]
     },
