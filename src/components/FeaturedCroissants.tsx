@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { heroSlides } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import { formatPrice } from "@/lib/formatPrice";
 import { Reveal } from "./Reveal";
 
 export function FeaturedCroissants() {
+  const { heroSlides } = useMenu();
   return (
     <section className="px-4">
       <h3 className="mb-3 text-sm font-medium text-amber-200/80">

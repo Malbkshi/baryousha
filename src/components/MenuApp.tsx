@@ -7,7 +7,7 @@ import { MenuCategorySection } from "./MenuCategorySection";
 import { FullMenuModal } from "./FullMenuModal";
 import { AboutSection } from "./AboutSection";
 import { BottomNav } from "./BottomNav";
-import { categories, totalMenuItems } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import type { MenuItem } from "@/data/menu";
 import { FeaturedCroissants } from "./FeaturedCroissants";
 import { ScrollText, MapPin, Phone, Clock, Truck } from "lucide-react";
@@ -17,7 +17,9 @@ import { Reveal } from "./Reveal";
 import { scrollToId } from "@/lib/motion";
 
 export function MenuApp() {
-  const [activeCategory, setActiveCategory] = useState(categories[0].id);
+  const { categories } = useMenu();
+  const totalMenuItems = categories.reduce((sum, c) => sum + c.items.length, 0);
+  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
@@ -44,7 +46,7 @@ export function MenuApp() {
     });
 
     return () => observers.forEach((o) => o.disconnect());
-  }, []);
+  }, [categories]);
 
   // Stable identities so the dialogs' Escape/close timers aren't torn down
   // and rebuilt on every render.
@@ -149,7 +151,7 @@ export function MenuApp() {
                 <div>
                   <h2 className="text-xl sm:text-2xl font-black text-amber-100">قائمة الطعام</h2>
                   <p className="text-sm text-zinc-500">
-                    The Menu · {totalMenuItems} صنف · 7 أقسام
+                    The Menu · {totalMenuItems} صنف · {categories.length} أقسام
                   </p>
                 </div>
                 {/* Desktop menu image button */}

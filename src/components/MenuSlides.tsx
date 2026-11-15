@@ -1,7 +1,7 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
-import { categories } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import { MenuCard } from "./MenuCard";
 import { CategoryIcon } from "@/lib/categoryIcon";
 
@@ -10,6 +10,7 @@ type MenuSlidesProps = {
 };
 
 export function MenuSlides({ categoryId }: MenuSlidesProps) {
+  const { categories } = useMenu();
   const category = categories.find((c) => c.id === categoryId) ?? categories[0];
   const [emblaRef] = useEmblaCarousel({
     align: "start",

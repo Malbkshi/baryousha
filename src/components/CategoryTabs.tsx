@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { categories } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import { CategoryIcon } from "@/lib/categoryIcon";
 import { scrollBehavior, scrollToId } from "@/lib/motion";
 
@@ -11,6 +11,7 @@ type CategoryTabsProps = {
 };
 
 export function CategoryTabs({ activeId, onChange }: CategoryTabsProps) {
+  const { categories } = useMenu();
   const listRef = useRef<HTMLDivElement>(null);
 
   // As you scroll the page the active tab can end up off-screen in this

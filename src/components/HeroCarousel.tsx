@@ -4,11 +4,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { heroSlides } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import { formatPrice } from "@/lib/formatPrice";
 import { MapPin } from "lucide-react";
 
 export function HeroCarousel() {
+  const { heroSlides } = useMenu();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000, stopOnInteraction: false }),
   ]);
