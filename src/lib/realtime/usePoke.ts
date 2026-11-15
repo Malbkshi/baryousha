@@ -13,8 +13,14 @@ const SUPABASE_KEY =
  * broadcast when Supabase is configured, and on a timer regardless, so the
  * page stays correct if the live connection drops. Paused while the tab is
  * hidden; fires once when it becomes visible again. `pollMs <= 0` turns it off.
+ * With `immediate`, also fires once as soon as the page mounts.
  */
-export function usePoke(channels: string[], onPoke: () => void, pollMs: number): void {
+export function usePoke(
+  channels: string[],
+  onPoke: () => void,
+  pollMs: number,
+  immediate = false,
+): void {
   const callback = useRef(onPoke);
   useEffect(() => {
     callback.current = onPoke;
@@ -29,6 +35,7 @@ export function usePoke(channels: string[], onPoke: () => void, pollMs: number):
       if (document.visibilityState === "visible") callback.current();
     };
 
+    if (immediate) callback.current();
     const timer = window.setInterval(fire, pollMs);
     document.addEventListener("visibilitychange", fire);
 
@@ -60,5 +67,5 @@ export function usePoke(channels: string[], onPoke: () => void, pollMs: number):
       document.removeEventListener("visibilitychange", fire);
       cleanupLive?.();
     };
-  }, [key, pollMs]);
+  }, [key, pollMs, immediate]);
 }
