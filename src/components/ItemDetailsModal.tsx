@@ -5,6 +5,8 @@ import { X, Plus, Minus, ShoppingCart, Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
 import { useDialog } from "@/lib/useDialog";
+import { LIMITS } from "@/lib/orders/types";
+import { useCart } from "./cart/CartContext";
 
 type ItemDetailsModalProps = {
   item: MenuItem | null;
@@ -14,6 +16,7 @@ type ItemDetailsModalProps = {
 export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const cart = useCart();
   const { closing, requestClose, panelRef } = useDialog(Boolean(item), onClose);
 
   // Let the confirmation read for a beat before the sheet leaves.
@@ -99,8 +102,9 @@ export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
                 {quantity}
               </span>
               <button
-                onClick={() => setQuantity(quantity + 1)}
+                onClick={() => setQuantity(Math.min(LIMITS.maxQtyPerLine, quantity + 1))}
                 aria-label="زيادة الكمية"
+                disabled={quantity >= LIMITS.maxQtyPerLine}
                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white transition duration-150 ease-brand hover:bg-white/20 active:scale-90"
               >
                 <Plus className="h-4 w-4" />
@@ -109,7 +113,10 @@ export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
           </div>
 
           <button
-            onClick={() => setAdded(true)}
+            onClick={() => {
+              cart.add(item.id, quantity);
+              setAdded(true);
+            }}
             disabled={added}
             className={`flex w-full items-center justify-center gap-2 rounded-xl py-4 font-bold text-black shadow-lg transition duration-200 ease-brand active:scale-[0.98] ${
               added

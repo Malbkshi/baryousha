@@ -1,4 +1,5 @@
 import { Croissant, Truck, MapPin, Phone } from "lucide-react";
+import { CAFE, telHref } from "@/lib/cafe";
 
 export function AboutSection() {
   return (
@@ -25,7 +26,7 @@ export function AboutSection() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-bold text-zinc-200">العنوان</span>
-            <span className="text-xs text-zinc-400">طرابلس، السياحية</span>
+            <span className="text-xs text-zinc-400">{CAFE.address}</span>
           </div>
         </div>
         
@@ -35,7 +36,7 @@ export function AboutSection() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-bold text-zinc-200">رقم الهاتف</span>
-            <span dir="ltr" className="text-xs font-bold text-amber-500">091 123 4567</span>
+            <a href={telHref(CAFE.phone)} dir="ltr" className="text-xs font-bold text-amber-500 hover:text-amber-400">{CAFE.phone}</a>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { POKE_EVENT } from "./channels";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -42,7 +43,7 @@ export function usePoke(channels: string[], onPoke: () => void, pollMs: number):
             auth: { persistSession: false, autoRefreshToken: false },
           });
           const subscriptions = key.split("|").map((name) =>
-            client.channel(name).on("broadcast", { event: "changed" }, fire).subscribe(),
+            client.channel(name).on("broadcast", { event: POKE_EVENT }, fire).subscribe(),
           );
           cleanupLive = () => {
             for (const subscription of subscriptions) client.removeChannel(subscription);

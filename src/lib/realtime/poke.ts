@@ -1,8 +1,6 @@
 import { getSupabaseAdmin } from "@/lib/store";
 
-export const ORDERS_CHANNEL = "orders";
-export const orderChannel = (token: string) => `order-${token}`;
-export const POKE_EVENT = "changed";
+import { ORDERS_CHANNEL, orderChannelName, POKE_EVENT } from "./channels";
 
 async function broadcast(channelName: string): Promise<void> {
   const supabase = getSupabaseAdmin();
@@ -21,7 +19,7 @@ async function broadcast(channelName: string): Promise<void> {
  * means the page updates a few seconds later.
  */
 export async function pokeOrders(token?: string): Promise<void> {
-  const channels = [ORDERS_CHANNEL, ...(token ? [orderChannel(token)] : [])];
+  const channels = [ORDERS_CHANNEL, ...(token ? [orderChannelName(token)] : [])];
   const results = await Promise.allSettled(channels.map(broadcast));
   for (const result of results) {
     if (result.status === "rejected") console.error("Poke failed:", result.reason);

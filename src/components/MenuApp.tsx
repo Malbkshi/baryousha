@@ -15,6 +15,10 @@ import { ItemDetailsModal } from "./ItemDetailsModal";
 import { CategoryIcon } from "@/lib/categoryIcon";
 import { Reveal } from "./Reveal";
 import { scrollToId } from "@/lib/motion";
+import { CAFE, telHref } from "@/lib/cafe";
+import { CartBar } from "./cart/CartBar";
+import { CheckoutSheet } from "./cart/CheckoutSheet";
+import { LastOrderBanner } from "./cart/LastOrderBanner";
 
 export function MenuApp() {
   const { categories } = useMenu();
@@ -22,6 +26,7 @@ export function MenuApp() {
   const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -53,6 +58,8 @@ export function MenuApp() {
   const scrollToMenu = useCallback(() => scrollToId("menu"), []);
   const closeFullMenu = useCallback(() => setMenuOpen(false), []);
   const closeItem = useCallback(() => setSelectedItem(null), []);
+  const openCheckout = useCallback(() => setCheckoutOpen(true), []);
+  const closeCheckout = useCallback(() => setCheckoutOpen(false), []);
 
   return (
     <div className="mx-auto max-w-7xl px-0 sm:px-4 lg:px-8 py-0 sm:py-6 lg:py-10">
@@ -111,7 +118,7 @@ export function MenuApp() {
               <MapPin className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-sm font-bold text-zinc-200">العنوان</h4>
-                <p className="text-xs text-zinc-400 mt-0.5">طرابلس، السياحية</p>
+                <p className="text-xs text-zinc-400 mt-0.5">{CAFE.address}</p>
               </div>
             </div>
             
@@ -119,7 +126,7 @@ export function MenuApp() {
               <Phone className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-sm font-bold text-zinc-200">رقم الهاتف</h4>
-                <p dir="ltr" className="text-xs font-bold text-amber-400 mt-0.5">091 123 4567</p>
+                <a href={telHref(CAFE.phone)} dir="ltr" className="block text-xs font-bold text-amber-400 mt-0.5 hover:text-amber-300">{CAFE.phone}</a>
               </div>
             </div>
 
@@ -145,7 +152,9 @@ export function MenuApp() {
             <HeroCarousel />
           </div>
 
-          <main className="pb-24 lg:pb-12">
+          <LastOrderBanner />
+
+          <main className="pb-44 lg:pb-12">
             <section id="menu" className="mt-6">
               <div className="mb-4 px-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
                 <div>
@@ -211,6 +220,8 @@ export function MenuApp() {
         </div>
       </div>
 
+      <CartBar onOpen={openCheckout} />
+      <CheckoutSheet open={checkoutOpen} onClose={closeCheckout} />
       <BottomNav onMenuClick={scrollToMenu} />
       <FullMenuModal open={menuOpen} onClose={closeFullMenu} />
       <ItemDetailsModal
