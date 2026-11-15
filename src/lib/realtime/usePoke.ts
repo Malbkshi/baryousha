@@ -11,15 +11,18 @@ const SUPABASE_KEY =
 /**
  * Calls `onPoke` whenever the page should refetch: on a live "changed"
  * broadcast when Supabase is configured, and on a timer regardless, so the
- * page stays correct if the live connection drops. Paused while the tab is
- * hidden; fires once when it becomes visible again. `pollMs <= 0` turns it off.
- * With `immediate`, also fires once as soon as the page mounts.
+ * page stays correct if the live connection drops. `pollMs <= 0` turns it off.
+ *
+ * By default it rests while the tab is hidden and fires once when the tab
+ * comes back. `background` keeps it going in a hidden tab, for the café's
+ * order board, which has to chime even when another tab is in front.
+ * `immediate` also fires once as soon as the page mounts.
  */
 export function usePoke(
   channels: string[],
   onPoke: () => void,
   pollMs: number,
-  immediate = false,
+  { immediate = false, background = false }: { immediate?: boolean; background?: boolean } = {},
 ): void {
   const callback = useRef(onPoke);
   useEffect(() => {
@@ -32,7 +35,7 @@ export function usePoke(
     if (pollMs <= 0) return;
 
     const fire = () => {
-      if (document.visibilityState === "visible") callback.current();
+      if (background || document.visibilityState === "visible") callback.current();
     };
 
     if (immediate) callback.current();
@@ -67,5 +70,5 @@ export function usePoke(
       document.removeEventListener("visibilitychange", fire);
       cleanupLive?.();
     };
-  }, [key, pollMs, immediate]);
+  }, [key, pollMs, immediate, background]);
 }

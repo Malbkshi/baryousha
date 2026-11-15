@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useMenu } from "./MenuContext";
 import { formatPrice } from "@/lib/formatPrice";
+import { canOptimize } from "@/lib/images";
 import { MapPin } from "lucide-react";
 
 export function HeroCarousel() {
@@ -49,6 +50,8 @@ export function HeroCarousel() {
     };
   }, [emblaApi, onSelect]);
 
+  if (heroSlides.length === 0) return null;
+
   return (
     <section className="relative w-full overflow-hidden">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between p-4 pt-6">
@@ -75,6 +78,7 @@ export function HeroCarousel() {
                   fill
                   className="object-cover"
                   priority={index === 0}
+                  unoptimized={!canOptimize(slide.image)}
                   sizes="(max-width: 1024px) 100vw, 950px"
                 />
               </div>

@@ -63,6 +63,18 @@ describe("publicMenu", () => {
     expect(visible.categories[0].items.map((i) => i.id)).toEqual(["c1"]);
   });
 
+  it("drops hero slides that have no image", () => {
+    const withSlides: MenuData = {
+      ...stored,
+      heroSlides: [
+        { image: "/images/a.jpg", titleAr: "أ", titleEn: "A", price: 1 },
+        { image: "", titleAr: "ب", titleEn: "B", price: 2 },
+        { image: "   ", titleAr: "ج", titleEn: "C", price: 3 },
+      ],
+    };
+    expect(publicMenu(withSlides).heroSlides.map((s) => s.titleEn)).toEqual(["A"]);
+  });
+
   it("does not change the menu it was given", () => {
     publicMenu(stored);
     expect(stored.categories[0].items).toHaveLength(2);

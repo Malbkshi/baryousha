@@ -3,10 +3,13 @@
 import Image from "next/image";
 import { useMenu } from "./MenuContext";
 import { formatPrice } from "@/lib/formatPrice";
+import { canOptimize } from "@/lib/images";
 import { Reveal } from "./Reveal";
 
 export function FeaturedCroissants() {
   const { heroSlides } = useMenu();
+  if (heroSlides.length === 0) return null;
+
   return (
     <section className="px-4">
       <h3 className="mb-3 text-sm font-medium text-amber-200/80">
@@ -23,6 +26,7 @@ export function FeaturedCroissants() {
                 src={slide.image}
                 alt={slide.titleAr}
                 fill
+                unoptimized={!canOptimize(slide.image)}
                 className="object-cover transition-transform duration-500 ease-brand group-hover:scale-105"
                 sizes="(max-width: 1024px) 50vw, 240px"
               />

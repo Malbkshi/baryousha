@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { MenuItem } from "@/data/menu";
 import { formatPrice } from "@/lib/formatPrice";
+import { canOptimize } from "@/lib/images";
 import { ItemPlaceholder } from "@/lib/itemPlaceholder";
 
 export function MenuCard({ item, onClick }: { item: MenuItem; onClick?: () => void }) {
@@ -17,6 +18,7 @@ export function MenuCard({ item, onClick }: { item: MenuItem; onClick?: () => vo
             src={item.image}
             alt={item.nameAr}
             fill
+            unoptimized={!canOptimize(item.image)}
             className="object-cover"
             sizes="280px"
           />

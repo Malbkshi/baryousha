@@ -46,10 +46,12 @@ export function getMenu(): Promise<MenuData> {
   return loadMenu(getStore());
 }
 
-/** What customers see: no hidden items, no categories left empty. */
+/** What customers see: no hidden items, no empty categories, no imageless slides. */
 export function publicMenu(menu: MenuData): MenuData {
   return {
-    heroSlides: menu.heroSlides,
+    heroSlides: menu.heroSlides.filter(
+      (slide) => typeof slide.image === "string" && slide.image.trim() !== "",
+    ),
     categories: menu.categories
       .map((category) => ({
         ...category,

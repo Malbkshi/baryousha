@@ -57,7 +57,8 @@ export function OrdersBoard({ settings, onToggleAccepting, onSignedOut }: Orders
     }
   }, [onSignedOut]);
 
-  usePoke([ORDERS_CHANNEL], refetch, 10_000, true);
+  // Keeps polling in a background tab so a new order still chimes.
+  usePoke([ORDERS_CHANNEL], refetch, 10_000, { immediate: true, background: true });
 
   const newCount = orders?.filter((order) => order.status === "new").length ?? 0;
 
