@@ -9,10 +9,9 @@
         {
           "id": "c1",
           "nameEn": "Tripolitan",
-          "nameAr": " بريوشة طرابلسية",
+          "nameAr": "بريوشة طرابلسية",
           "price": 6,
-          "note": "زبدة · عسل · لوز",
-          "image": "https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?w=800&q=80"
+          "note": "زبدة · عسل · لوز"
         },
         {
           "id": "c2",
@@ -20,7 +19,7 @@
           "nameAr": "نوتيلا",
           "price": 6,
           "note": "زبدة · لوز",
-          "image": "https://images.unsplash.com/photo-1549903072-7e6e0d6594d4?w=800&q=80",
+          "image": "/images/brioche-nutella-almond.jpg",
           "hidden": false
         },
         {
@@ -29,23 +28,21 @@
           "nameAr": "فيلادلفيا وزعتر",
           "price": 8,
           "note": "عسل · زعتر",
-          "image": "https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?w=800&q=80"
+          "image": "/images/brioche-philadelphia-zaatar.jpg"
         },
         {
           "id": "c4",
           "nameEn": "Philadelphia + Cashew",
           "nameAr": "فيلادلفيا وكاجو",
           "price": 10,
-          "note": "عسل · كاجو",
-          "image": "https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?w=800&q=80"
+          "note": "عسل · كاجو"
         },
         {
           "id": "c5",
           "nameEn": "Hazelnuts",
           "nameAr": "بندق",
           "price": 8,
-          "note": "زبدة · عسل",
-          "image": "https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?w=800&q=80"
+          "note": "زبدة · عسل"
         },
         {
           "id": "c6",
@@ -53,30 +50,27 @@
           "nameAr": "بندق ونوتيلا",
           "price": 9,
           "note": "عسل · نوتيلا",
-          "image": "https://images.unsplash.com/photo-1549903072-7e6e0d6594d4?w=800&q=80"
+          "image": "/images/brioche-nutella-hazelnut.jpg"
         },
         {
           "id": "c7",
           "nameEn": "Pistachio",
           "nameAr": "فستق",
           "price": 10,
-          "note": "زبدة · عسل",
-          "image": "https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?w=800&q=80"
+          "note": "زبدة · عسل"
         },
         {
           "id": "c8",
           "nameEn": "Pistachio + Nutella",
           "nameAr": "فستق ونوتيلا",
           "price": 14,
-          "note": "عسل · نوتيلا",
-          "image": "https://images.unsplash.com/photo-1549903072-7e6e0d6594d4?w=800&q=80"
+          "note": "عسل · نوتيلا"
         },
         {
           "id": "c9",
           "nameEn": "Croissant Full",
           "nameAr": "بريوش كامل",
-          "price": 15,
-          "image": "https://images.unsplash.com/photo-1549903072-7e6e0d6594d4?w=800&q=80"
+          "price": 15
         }
       ]
     },

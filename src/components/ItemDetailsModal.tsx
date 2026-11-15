@@ -7,6 +7,8 @@ import { formatPrice } from "@/lib/formatPrice";
 import { useDialog } from "@/lib/useDialog";
 import { LIMITS } from "@/lib/orders/types";
 import { useCart } from "./cart/CartContext";
+import { CategoryIcon } from "@/lib/categoryIcon";
+import { useMenu } from "./MenuContext";
 
 type ItemDetailsModalProps = {
   item: MenuItem | null;
@@ -17,6 +19,7 @@ export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const cart = useCart();
+  const { categories } = useMenu();
   const { closing, requestClose, panelRef } = useDialog(Boolean(item), onClose);
 
   // Let the confirmation read for a beat before the sheet leaves.
@@ -62,8 +65,13 @@ export function ItemDetailsModal({ item, onClose }: ItemDetailsModalProps) {
               className="h-full w-full object-cover"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-zinc-500">
-              لا توجد صورة
+            <div className="flex h-full items-center justify-center bg-gradient-to-br from-amber-900/25 to-zinc-800">
+              <CategoryIcon
+                icon={
+                  categories.find((c) => c.items.some((i) => i.id === item.id))?.icon ?? "croissant"
+                }
+                className="h-24 w-24 text-amber-500/40"
+              />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80" />

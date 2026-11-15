@@ -1,16 +1,19 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import type { MenuItem } from "@/data/menu";
+import type { MenuCategory, MenuItem } from "@/data/menu";
+import { CategoryIcon } from "@/lib/categoryIcon";
 import { formatPrice } from "@/lib/formatPrice";
 import { useCart } from "./cart/CartContext";
 import { QtyStepper } from "./cart/QtyStepper";
 
 export function MenuListRow({
   item,
+  icon,
   onClick,
 }: {
   item: MenuItem;
+  icon: MenuCategory["icon"];
   onClick: () => void;
 }) {
   const cart = useCart();
@@ -26,17 +29,19 @@ export function MenuListRow({
         aria-label={`${item.nameAr} — ${formatPrice(item.price)}، عرض التفاصيل`}
         className="flex min-w-0 flex-1 items-center gap-4 rounded-lg text-right outline-none transition duration-200 ease-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 active:scale-[0.99]"
       >
-        {item.image && (
-          <span className="block h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-zinc-800 shadow-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-amber-900/25 to-zinc-800 shadow-lg">
+          {item.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={item.image}
               alt=""
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-500 ease-brand group-hover:scale-110"
             />
-          </span>
-        )}
+          ) : (
+            <CategoryIcon icon={icon} className="h-7 w-7 text-amber-500/50" />
+          )}
+        </span>
         <span className="flex min-w-0 flex-1 flex-col justify-center">
           <span className="text-base font-bold text-white">{item.nameAr}</span>
           <span className="mt-0.5 text-xs text-zinc-400">{item.nameEn}</span>
