@@ -37,15 +37,28 @@ export type PublicOrder = Omit<Order, "id" | "phone" | "clientRef">;
 
 export type Settings = {
   acceptingOrders: boolean;
+  /** "HH:MM". The same time for both means open all day. */
   openTime: string;
+  /** "HH:MM". Earlier than openTime means the café closes after midnight. */
   closeTime: string;
+  /** Close for each of the five daily prayers. */
+  prayerBreaks: boolean;
+  /** Minutes before the prayer time that the café closes. */
+  minutesBefore: number;
+  /** Minutes after the prayer time that the café opens again. */
+  minutesAfter: number;
 };
 
 export const DEFAULT_SETTINGS: Settings = {
   acceptingOrders: true,
-  openTime: "08:00",
-  closeTime: "23:00",
+  openTime: "00:00",
+  closeTime: "00:00",
+  prayerBreaks: true,
+  minutesBefore: 10,
+  minutesAfter: 40,
 };
+
+export const PRAYER_MINUTES_LIMIT = { before: 60, after: 120 } as const;
 
 export const LIMITS = {
   maxLines: 20,

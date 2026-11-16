@@ -1,7 +1,7 @@
 import { requireStaff } from "@/lib/auth";
 import { noStore, readJson } from "@/lib/http";
-import { parseTime } from "@/lib/orders/hours";
 import { getSettings } from "@/lib/orders/service";
+import { mergeSettings } from "@/lib/orders/settings";
 import type { Settings } from "@/lib/orders/types";
 import { getStore } from "@/lib/store";
 
@@ -28,18 +28,18 @@ export async function PUT(request: Request) {
   const store = getStore();
   if (!store) return unavailable();
 
-  const body = (await readJson(request)) as Partial<Settings> | null;
-  const open = typeof body?.openTime === "string" ? parseTime(body.openTime) : null;
-  const close = typeof body?.closeTime === "string" ? parseTime(body.closeTime) : null;
-  if (!body || typeof body.acceptingOrders !== "boolean" || open === null || close === null || open >= close) {
+  const body = await readJson(request);
+  let settings: Settings | null;
+  try {
+    settings = mergeSettings(await getSettings(store), body);
+  } catch (error) {
+    console.error("Settings read failed:", error);
+    return unavailable();
+  }
+  if (!settings) {
     return Response.json({ error: "invalid" }, { status: 400, headers: noStore });
   }
 
-  const settings: Settings = {
-    acceptingOrders: body.acceptingOrders,
-    openTime: body.openTime!,
-    closeTime: body.closeTime!,
-  };
   try {
     await store.setDoc("settings", settings);
     return Response.json(settings, { headers: noStore });

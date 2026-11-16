@@ -10,6 +10,7 @@ const STATUS: Record<OrderError["code"], number> = {
   paused: 409,
   closed: 409,
   "too-many-active": 429,
+  prayer: 409,
 };
 
 const serverError = () =>

@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { MenuData } from "@/data/menu";
 import { MemoryStore } from "@/lib/store/memory";
+import { todaysPrayers } from "./prayer";
 import { actOnOrder, createOrder, getSettings, toPublic, type CreateInput } from "./service";
 
 const menu: MenuData = {
@@ -50,8 +51,10 @@ async function errorOf(overrides: Partial<CreateInput>, now = noon) {
   return result.error;
 }
 
-beforeEach(() => {
+beforeEach(async () => {
   store = new MemoryStore();
+  // Day hours without prayer breaks, so the order rules are tested on their own.
+  await store.setDoc("settings", { openTime: "08:00", closeTime: "23:00", prayerBreaks: false });
 });
 
 describe("createOrder", () => {
@@ -115,13 +118,29 @@ describe("createOrder", () => {
   });
 
   it("refuses when the café paused ordering", async () => {
-    await store.setDoc("settings", { acceptingOrders: false });
+    await store.setDoc("settings", { acceptingOrders: false, openTime: "08:00", closeTime: "23:00" });
     expect(await errorOf({})).toEqual({ code: "paused" });
   });
 
   it("refuses outside working hours", async () => {
     const afterMidnight = new Date("2026-11-15T22:30:00Z");
     expect(await errorOf({}, afterMidnight)).toEqual({ code: "closed" });
+  });
+
+  it("refuses while the café is closed for prayer, and says when it reopens", async () => {
+    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 });
+    const settings = await getSettings(store);
+    const dhuhr = todaysPrayers(settings, noon)[1];
+    const error = await errorOf({}, new Date(dhuhr.at));
+    expect(error).toEqual({ code: "prayer", label: "الظهر", reopensAt: dhuhr.until });
+  });
+
+  it("refuses a pickup time inside a prayer closure", async () => {
+    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 });
+    const settings = await getSettings(store);
+    const dhuhr = todaysPrayers(settings, noon)[1];
+    const local = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Tripoli", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(dhuhr.at));
+    expect(await errorOf({ pickupTime: local })).toEqual({ code: "invalid", field: "pickup" });
   });
 
   it("refuses a pickup time with less than ten minutes of notice", async () => {
@@ -215,11 +234,19 @@ describe("toPublic", () => {
 });
 
 describe("getSettings", () => {
-  it("falls back to the defaults", async () => {
-    expect(await getSettings(store)).toEqual({ acceptingOrders: true, openTime: "08:00", closeTime: "23:00" });
+  it("falls back to the defaults: open all day, closing for each prayer", async () => {
+    expect(await getSettings(new MemoryStore())).toEqual({
+      acceptingOrders: true,
+      openTime: "00:00",
+      closeTime: "00:00",
+      prayerBreaks: true,
+      minutesBefore: 10,
+      minutesAfter: 40,
+    });
   });
   it("fills what a stored document is missing", async () => {
-    await store.setDoc("settings", { closeTime: "22:00" });
-    expect(await getSettings(store)).toEqual({ acceptingOrders: true, openTime: "08:00", closeTime: "22:00" });
+    const fresh = new MemoryStore();
+    await fresh.setDoc("settings", { openTime: "08:00", closeTime: "22:00" });
+    expect(await getSettings(fresh)).toMatchObject({ openTime: "08:00", closeTime: "22:00", prayerBreaks: true });
   });
 });

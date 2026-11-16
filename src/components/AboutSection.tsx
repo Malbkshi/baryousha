@@ -1,5 +1,6 @@
 import { Croissant, Truck, MapPin, Phone } from "lucide-react";
 import { CAFE, telHref } from "@/lib/cafe";
+import { PrayerSchedule } from "./PrayerSchedule";
 
 export function AboutSection() {
   return (
@@ -39,6 +40,10 @@ export function AboutSection() {
             <a href={telHref(CAFE.phone)} dir="ltr" className="text-xs font-bold text-amber-500 hover:text-amber-400">{CAFE.phone}</a>
           </div>
         </div>
+      </div>
+
+      <div className="mb-6 rounded-xl border border-white/5 bg-black/40 p-4">
+        <PrayerSchedule compact />
       </div>
 
       <div className="mt-5 flex items-center gap-2 rounded-xl border border-dashed border-zinc-700 bg-zinc-950/50 px-4 py-3 text-sm text-zinc-500">

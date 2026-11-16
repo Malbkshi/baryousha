@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatClock, formatInstant } from "./labels";
+import { formatClock, formatInstant, minutesText } from "./labels";
 
 describe("formatClock", () => {
   it.each([
@@ -20,5 +20,19 @@ describe("formatClock", () => {
 describe("formatInstant", () => {
   it("shows the time on the café's clock, two hours ahead of UTC", () => {
     expect(formatInstant("2026-11-15T10:10:00.000Z")).toBe("12:10 م");
+  });
+});
+
+describe("minutesText", () => {
+  it.each([
+    [1, "دقيقة"],
+    [2, "دقيقتين"],
+    [3, "3 دقائق"],
+    [10, "10 دقائق"],
+    [11, "11 دقيقة"],
+    [40, "40 دقيقة"],
+    [60, "60 دقيقة"],
+  ])("says %i minutes as %s", (n, text) => {
+    expect(minutesText(n)).toBe(text);
   });
 });

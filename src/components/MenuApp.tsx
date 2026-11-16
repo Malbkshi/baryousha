@@ -10,7 +10,8 @@ import { BottomNav } from "./BottomNav";
 import { useMenu } from "./MenuContext";
 import type { MenuItem } from "@/data/menu";
 import { FeaturedCroissants } from "./FeaturedCroissants";
-import { ScrollText, MapPin, Phone, Clock, Truck } from "lucide-react";
+import { ScrollText, MapPin, Phone, Truck } from "lucide-react";
+import { ClosedBanner, PrayerSchedule } from "./PrayerSchedule";
 import { ItemDetailsModal } from "./ItemDetailsModal";
 import { CategoryIcon } from "@/lib/categoryIcon";
 import { Reveal } from "./Reveal";
@@ -130,12 +131,8 @@ export function MenuApp() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 border-t border-zinc-800 pt-3 mt-3">
-              <Clock className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-sm font-bold text-zinc-200">ساعات العمل</h4>
-                <p className="text-xs text-zinc-400 mt-0.5">يومياً: 8:00 صباحاً - 11:00 مساءً</p>
-              </div>
+            <div className="border-t border-zinc-800 pt-3 mt-3">
+              <PrayerSchedule />
             </div>
 
             <div className="flex items-center gap-2 rounded-lg bg-zinc-950/60 border border-zinc-800/80 px-3 py-2 text-xs text-zinc-500">
@@ -152,6 +149,7 @@ export function MenuApp() {
             <HeroCarousel />
           </div>
 
+          <ClosedBanner />
           <LastOrderBanner />
 
           <main className="pb-44 lg:pb-12">
