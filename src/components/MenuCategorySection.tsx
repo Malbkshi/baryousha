@@ -13,23 +13,29 @@ export function MenuCategorySection({ category, onItemClick }: MenuCategorySecti
       id={`category-${category.id}`}
       className="scroll-mt-28 px-4"
     >
-      <div className="mb-3 flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2.5 shadow-md shadow-amber-900/30">
-        <CategoryIcon icon={category.icon} className="h-5 w-5 text-black" />
-        <h2 className="text-base font-bold text-black">{category.titleAr}</h2>
-        <span className="text-sm font-medium text-black/70">
-          · {category.titleEn}
+      <div className="mb-3 flex items-center gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/10">
+          <CategoryIcon icon={category.icon} className="h-5 w-5 text-amber-400" />
         </span>
+        <div className="min-w-0">
+          <h2 className="text-xl font-black leading-tight text-amber-100">{category.titleAr}</h2>
+          <p className="text-xs text-zinc-500">
+            {category.titleEn} · {category.items.length} صنف
+          </p>
+        </div>
+        <span aria-hidden className="h-px flex-1 bg-gradient-to-l from-amber-500/50 to-transparent" />
       </div>
 
-      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 rounded-xl border border-amber-600/20 bg-zinc-900/50 px-4 py-2">
+      <ul className="grid grid-cols-1 gap-x-8 rounded-2xl border border-amber-600/15 bg-zinc-900/50 px-4 py-1 lg:grid-cols-2">
         {category.items.map((item) => (
-          <MenuListRow key={item.id} item={item} onClick={() => onItemClick(item)} />
+          <MenuListRow
+            key={item.id}
+            item={item}
+            icon={category.icon}
+            onClick={() => onItemClick(item)}
+          />
         ))}
       </ul>
-
-      <p className="mt-2 text-center text-xs text-zinc-600">
-        {category.items.length} صنف
-      </p>
     </section>
   );
 }

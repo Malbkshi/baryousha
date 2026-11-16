@@ -4,11 +4,13 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { heroSlides } from "@/data/menu";
+import { useMenu } from "./MenuContext";
 import { formatPrice } from "@/lib/formatPrice";
+import { canOptimize } from "@/lib/images";
 import { MapPin } from "lucide-react";
 
 export function HeroCarousel() {
+  const { heroSlides } = useMenu();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000, stopOnInteraction: false }),
   ]);
@@ -48,10 +50,10 @@ export function HeroCarousel() {
     };
   }, [emblaApi, onSelect]);
 
+  if (heroSlides.length === 0) return null;
+
   return (
     <section className="relative w-full overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
-
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between p-4 pt-6">
         <div className="flex items-center gap-2 rounded-full border border-amber-500/30 bg-black/50 px-3 py-1.5 text-xs text-amber-100 backdrop-blur-sm">
           <MapPin className="h-3.5 w-3.5 text-amber-400" />
@@ -76,16 +78,21 @@ export function HeroCarousel() {
                   fill
                   className="object-cover"
                   priority={index === 0}
+                  unoptimized={!canOptimize(slide.image)}
                   sizes="(max-width: 1024px) 100vw, 950px"
                 />
               </div>
-              <div className="absolute inset-x-0 bottom-0 z-20 p-5 pb-8">
-                <h1 className="text-2xl font-bold text-white sm:text-3xl">
+              {/* The scrim lives inside the slide. Embla transforms its
+                  container, which makes a stacking context: a scrim outside
+                  it would sit on top of this text however high its z-index. */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/45 to-black/10" />
+              <div className="absolute inset-x-0 bottom-0 p-5 pb-8">
+                <h1 className="text-3xl font-black text-white drop-shadow-lg sm:text-4xl">
                   مقهى البريوشة
                 </h1>
-                <p className="mt-1 text-sm text-amber-200/90">{slide.titleAr}</p>
-                <p className="text-xs text-zinc-400">{slide.titleEn}</p>
-                <span className="mt-3 inline-block rounded-full bg-amber-500 px-4 py-1 text-sm font-bold text-black">
+                <p className="mt-1.5 text-base font-semibold text-amber-200">{slide.titleAr}</p>
+                <p className="text-xs text-zinc-300/80">{slide.titleEn}</p>
+                <span className="mt-3 inline-block rounded-full bg-amber-500 px-4 py-1 text-sm font-bold text-black shadow-lg shadow-black/40">
                   {formatPrice(slide.price)}
                 </span>
               </div>

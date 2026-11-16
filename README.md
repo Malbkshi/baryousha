@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# مقهى البريوشة
 
-## Getting Started
+موقع قائمة مقهى البريوشة في طرابلس: قائمة الأصناف، الطلب المسبق للاستلام، ولوحة للمقهى.
 
-First, run the development server:
+- **الزبون:** يضيف أصنافًا للسلة، يرسل الطلب باسمه ورقم هاتفه، ويتابع حالته من صفحة خاصة.
+- **المقهى:** `/admin` — لوحة طلبات لحظية، تعديل المنتجات ورفع صورها، وساعات استقبال الطلبات.
+
+Next.js 16 (App Router)، Tailwind 4، Supabase.
+
+## التشغيل محليًا
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+DEV_STAFF_PASSWORD=test npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+من غير متغيرات Supabase يشتغل الموقع محليًا على مخزن مؤقت في الذاكرة (يتمسح مع إعادة التشغيل)،
+والدخول للوحة يكون بأي إيميل وكلمة المرور اللي في `DEV_STAFF_PASSWORD`. هذا الوضع لا يعمل في الإنتاج.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## الربط بـ Supabase
 
-## Learn More
+الخطوات في [`docs/SETUP-SUPABASE.md`](docs/SETUP-SUPABASE.md). أسماء المتغيرات في `.env.example`.
 
-To learn more about Next.js, take a look at the following resources:
+## الفحص
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+```
 
-## Deploy on Vercel
+## كيف تمشي البيانات
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+المتصفح لا يكلّم Supabase في قراءة ولا كتابة: كل شيء يمر عبر `src/app/api/*` بالمفتاح السري في السيرفر،
+والجداول مقفولة بـ RLS من غير سياسات. التحديث اللحظي إشارة "تغيّر شيء" بدون بيانات، والصفحات
+تعيد التحميل من السيرفر، ومعها تحديث دوري احتياطي.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+لو Supabase غير مربوط أو لا يرد، القائمة تُعرض من `src/data/menu.json` والطلب يتعطل برسالة واضحة.

@@ -18,8 +18,23 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
-export const categories: MenuCategory[] = menuData.categories as MenuCategory[];
-export const heroSlides = menuData.heroSlides;
+export type HeroSlide = {
+  image: string;
+  titleAr: string;
+  titleEn: string;
+  price: number;
+};
+
+export type MenuData = {
+  categories: MenuCategory[];
+  heroSlides: HeroSlide[];
+};
+
+/** The menu shipped with the site. Used until one is saved from the dashboard. */
+export const bundledMenu: MenuData = menuData as MenuData;
+
+export const categories: MenuCategory[] = bundledMenu.categories;
+export const heroSlides = bundledMenu.heroSlides;
 
 export const totalMenuItems = categories.reduce(
   (sum, c) => sum + c.items.length,
