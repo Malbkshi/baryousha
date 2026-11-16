@@ -10,7 +10,8 @@ export type OrderingInfo = {
   closeTime: string;
   allDay: boolean;
   prayerBreaks: boolean;
-  minutesBefore: number;
+  closeAfterAdhan: number;
+  maghribBefore: number;
   minutesAfter: number;
   prayers: PrayerSlot[];
   slots: string[];

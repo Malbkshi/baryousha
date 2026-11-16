@@ -58,12 +58,16 @@ function prayersOn(settings: Settings, day: Date): PrayerSlot[] {
 
   return ORDER.map((prayer) => {
     const at = times[prayer];
+    // The café closes a little after the adhan, except at maghrib, when it
+    // closes a little before it.
+    const startOffset =
+      prayer === "maghrib" ? -settings.maghribBefore : settings.closeAfterAdhan;
     return {
       prayer,
       label: prayer === "dhuhr" && isFriday ? "الجمعة" : LABEL[prayer],
       at: at.toISOString(),
       from: settings.prayerBreaks
-        ? new Date(at.getTime() - settings.minutesBefore * minute).toISOString()
+        ? new Date(at.getTime() + startOffset * minute).toISOString()
         : null,
       until: settings.prayerBreaks
         ? new Date(at.getTime() + settings.minutesAfter * minute).toISOString()

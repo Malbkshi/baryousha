@@ -25,13 +25,19 @@ export function mergeSettings(current: Settings, body: unknown): Settings | null
       next[key] = sent[key] as string;
     }
   }
-  if ("minutesBefore" in sent) {
-    if (!minutesIn(sent.minutesBefore, PRAYER_MINUTES_LIMIT.before)) return null;
-    next.minutesBefore = sent.minutesBefore as number;
+  if ("closeAfterAdhan" in sent) {
+    if (!minutesIn(sent.closeAfterAdhan, PRAYER_MINUTES_LIMIT.closeAfterAdhan)) return null;
+    next.closeAfterAdhan = sent.closeAfterAdhan as number;
+  }
+  if ("maghribBefore" in sent) {
+    if (!minutesIn(sent.maghribBefore, PRAYER_MINUTES_LIMIT.maghribBefore)) return null;
+    next.maghribBefore = sent.maghribBefore as number;
   }
   if ("minutesAfter" in sent) {
     if (!minutesIn(sent.minutesAfter, PRAYER_MINUTES_LIMIT.after)) return null;
     next.minutesAfter = sent.minutesAfter as number;
   }
+  // The café must reopen after it closes, or the closure is empty.
+  if (next.minutesAfter <= next.closeAfterAdhan) return null;
   return next;
 }

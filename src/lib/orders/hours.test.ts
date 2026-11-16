@@ -89,14 +89,19 @@ describe("open overnight", () => {
 });
 
 describe("prayer breaks and pickup", () => {
-  const settings: Settings = { ...ALL_DAY, prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 };
+  const settings: Settings = { ...ALL_DAY, prayerBreaks: true, closeAfterAdhan: 10, maghribBefore: 10, minutesAfter: 40 };
   const dhuhr = todaysPrayers(settings, noon)[1];
   const minutes = (iso: string) => tripoliMinutes(new Date(iso));
   const at = (total: number) =>
     `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 
   it("refuses a pickup time inside a prayer closure", () => {
-    expect(checkPickupTime(at(minutes(dhuhr.at)), settings, noon)).toBe("prayer");
+    expect(checkPickupTime(at(minutes(dhuhr.from!)), settings, noon)).toBe("prayer");
+    expect(checkPickupTime(at(minutes(dhuhr.until!) - 1), settings, noon)).toBe("prayer");
+  });
+
+  it("accepts a pickup time at the adhan itself, before the closure starts", () => {
+    expect(checkPickupTime(at(minutes(dhuhr.at)), settings, noon)).toBe("ok");
   });
 
   it("accepts a pickup time once the closure is over", () => {
@@ -115,6 +120,6 @@ describe("prayer breaks and pickup", () => {
   });
 
   it("offers nothing while the café is closed for prayer", () => {
-    expect(pickupSlots(settings, new Date(dhuhr.at))).toEqual([]);
+    expect(pickupSlots(settings, new Date(dhuhr.from!))).toEqual([]);
   });
 });

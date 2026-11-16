@@ -4,7 +4,7 @@ import { DEFAULT_SETTINGS } from "./types";
 
 describe("mergeSettings", () => {
   it("applies a full, valid update", () => {
-    const next = { acceptingOrders: false, openTime: "08:00", closeTime: "23:00", prayerBreaks: false, minutesBefore: 5, minutesAfter: 30 };
+    const next = { acceptingOrders: false, openTime: "08:00", closeTime: "23:00", prayerBreaks: false, closeAfterAdhan: 5, maghribBefore: 15, minutesAfter: 30 };
     expect(mergeSettings(DEFAULT_SETTINGS, next)).toEqual(next);
   });
 
@@ -22,12 +22,21 @@ describe("mergeSettings", () => {
     [{ closeTime: "8" }],
     [{ acceptingOrders: "yes" }],
     [{ prayerBreaks: 1 }],
-    [{ minutesBefore: -1 }],
-    [{ minutesBefore: 61 }],
+    [{ closeAfterAdhan: -1 }],
+    [{ closeAfterAdhan: 61 }],
+    [{ maghribBefore: -1 }],
+    [{ maghribBefore: 61 }],
+    [{ maghribBefore: 1.5 }],
     [{ minutesAfter: 121 }],
     [{ minutesAfter: 2.5 }],
   ])("refuses %j", (body) => {
     expect(mergeSettings(DEFAULT_SETTINGS, body)).toBeNull();
+  });
+
+  it("refuses a closure that would end before it starts", () => {
+    expect(mergeSettings(DEFAULT_SETTINGS, { closeAfterAdhan: 40, minutesAfter: 40 })).toBeNull();
+    expect(mergeSettings(DEFAULT_SETTINGS, { closeAfterAdhan: 30, minutesAfter: 20 })).toBeNull();
+    expect(mergeSettings(DEFAULT_SETTINGS, { closeAfterAdhan: 0, minutesAfter: 1 })).not.toBeNull();
   });
 
   it("refuses something that is not an object", () => {
