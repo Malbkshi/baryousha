@@ -136,31 +136,48 @@ export function SettingsPanel({ settings, onSave }: SettingsPanelProps) {
           />
         </div>
         {draft.prayerBreaks && (
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-4 space-y-3">
             <label className="block text-xs font-semibold text-zinc-300">
-              يقفل قبل الصلاة بـ (دقيقة)
+              يقفل بعد الأذان بـ (دقيقة)
               <input
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={PRAYER_MINUTES_LIMIT.before}
-                value={draft.minutesBefore}
-                onChange={(e) => change({ minutesBefore: minutes(e.target.value, PRAYER_MINUTES_LIMIT.before) })}
+                max={PRAYER_MINUTES_LIMIT.closeAfterAdhan}
+                value={draft.closeAfterAdhan}
+                onChange={(e) => change({ closeAfterAdhan: minutes(e.target.value, PRAYER_MINUTES_LIMIT.closeAfterAdhan) })}
                 className={`${field} mt-1.5`}
               />
             </label>
             <label className="block text-xs font-semibold text-zinc-300">
-              يفتح بعد الصلاة بـ (دقيقة)
+              المغرب: يقفل قبل الأذان بـ (دقيقة)
               <input
                 type="number"
                 inputMode="numeric"
                 min={0}
+                max={PRAYER_MINUTES_LIMIT.maghribBefore}
+                value={draft.maghribBefore}
+                onChange={(e) => change({ maghribBefore: minutes(e.target.value, PRAYER_MINUTES_LIMIT.maghribBefore) })}
+                className={`${field} mt-1.5`}
+              />
+            </label>
+            <label className="block text-xs font-semibold text-zinc-300">
+              يفتح بعد الأذان بـ (دقيقة)
+              <input
+                type="number"
+                inputMode="numeric"
+                min={1}
                 max={PRAYER_MINUTES_LIMIT.after}
                 value={draft.minutesAfter}
                 onChange={(e) => change({ minutesAfter: minutes(e.target.value, PRAYER_MINUTES_LIMIT.after) })}
                 className={`${field} mt-1.5`}
               />
             </label>
+            {draft.minutesAfter <= draft.closeAfterAdhan && (
+              <p role="alert" className="text-xs text-red-400">
+                وقت الفتح لازم يكون بعد وقت القفل.
+              </p>
+            )}
           </div>
         )}
       </section>

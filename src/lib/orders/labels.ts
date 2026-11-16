@@ -43,3 +43,8 @@ export function minutesText(n: number): string {
   if (n >= 3 && n <= 10) return `${n} دقائق`;
   return `${n} دقيقة`;
 }
+
+/** What the site says while it is closed for a prayer. */
+export function prayerNowText(label: string): string {
+  return `حان الآن وقت صلاة ${label}`;
+}

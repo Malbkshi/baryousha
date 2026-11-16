@@ -43,9 +43,11 @@ export type Settings = {
   closeTime: string;
   /** Close for each of the five daily prayers. */
   prayerBreaks: boolean;
-  /** Minutes before the prayer time that the café closes. */
-  minutesBefore: number;
-  /** Minutes after the prayer time that the café opens again. */
+  /** Minutes after the adhan that the café closes (every prayer except maghrib). */
+  closeAfterAdhan: number;
+  /** Minutes before the maghrib adhan that the café closes. */
+  maghribBefore: number;
+  /** Minutes after the adhan that the café opens again. */
   minutesAfter: number;
 };
 
@@ -54,11 +56,12 @@ export const DEFAULT_SETTINGS: Settings = {
   openTime: "00:00",
   closeTime: "00:00",
   prayerBreaks: true,
-  minutesBefore: 10,
+  closeAfterAdhan: 10,
+  maghribBefore: 10,
   minutesAfter: 40,
 };
 
-export const PRAYER_MINUTES_LIMIT = { before: 60, after: 120 } as const;
+export const PRAYER_MINUTES_LIMIT = { closeAfterAdhan: 60, maghribBefore: 60, after: 120 } as const;
 
 export const LIMITS = {
   maxLines: 20,

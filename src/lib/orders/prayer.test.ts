@@ -3,7 +3,7 @@ import { currentBreak, todaysPrayers } from "./prayer";
 import { tripoliMinutes } from "./hours";
 import { DEFAULT_SETTINGS, type Settings } from "./types";
 
-const settings: Settings = { ...DEFAULT_SETTINGS, prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 };
+const settings: Settings = { ...DEFAULT_SETTINGS, prayerBreaks: true, closeAfterAdhan: 10, maghribBefore: 10, minutesAfter: 40 };
 
 // 12:00 Tripoli on a Sunday in November.
 const noon = new Date("2026-11-15T10:00:00Z");
@@ -39,19 +39,29 @@ describe("todaysPrayers", () => {
     expect(lateUtc.map((p) => p.at)).toEqual(nextDay.map((p) => p.at));
   });
 
-  it("closes from ten minutes before each prayer until forty minutes after", () => {
-    for (const prayer of todaysPrayers(settings, noon)) {
+  it("closes ten minutes after the adhan, until forty minutes after it", () => {
+    for (const prayer of todaysPrayers(settings, noon).filter((p) => p.prayer !== "maghrib")) {
       const at = new Date(prayer.at).getTime();
-      expect(new Date(prayer.from!).getTime()).toBe(at - 10 * 60_000);
+      expect(new Date(prayer.from!).getTime()).toBe(at + 10 * 60_000);
       expect(new Date(prayer.until!).getTime()).toBe(at + 40 * 60_000);
     }
   });
 
+  it("closes ten minutes before the adhan at maghrib", () => {
+    const maghrib = todaysPrayers(settings, noon).find((p) => p.prayer === "maghrib")!;
+    const at = new Date(maghrib.at).getTime();
+    expect(new Date(maghrib.from!).getTime()).toBe(at - 10 * 60_000);
+    expect(new Date(maghrib.until!).getTime()).toBe(at + 40 * 60_000);
+  });
+
   it("follows the minutes set by the café", () => {
-    const [fajr] = todaysPrayers({ ...settings, minutesBefore: 5, minutesAfter: 20 }, noon);
-    const at = new Date(fajr.at).getTime();
-    expect(new Date(fajr.from!).getTime()).toBe(at - 5 * 60_000);
-    expect(new Date(fajr.until!).getTime()).toBe(at + 20 * 60_000);
+    const custom = { ...settings, closeAfterAdhan: 5, maghribBefore: 15, minutesAfter: 20 };
+    const prayers = todaysPrayers(custom, noon);
+    const fajr = prayers[0];
+    const maghrib = prayers[3];
+    expect(new Date(fajr.from!).getTime()).toBe(new Date(fajr.at).getTime() + 5 * 60_000);
+    expect(new Date(fajr.until!).getTime()).toBe(new Date(fajr.at).getTime() + 20 * 60_000);
+    expect(new Date(maghrib.from!).getTime()).toBe(new Date(maghrib.at).getTime() - 15 * 60_000);
   });
 
   it("still lists the times, without closures, when prayer breaks are off", () => {
@@ -71,12 +81,22 @@ describe("currentBreak", () => {
   const at = new Date(dhuhr.at).getTime();
   const minute = 60_000;
 
-  it("is open just before the closure starts", () => {
-    expect(currentBreak(settings, new Date(at - 11 * minute))).toBeNull();
+  it("stays open at the adhan and for nine minutes after it", () => {
+    expect(currentBreak(settings, new Date(at - 10 * minute))).toBeNull();
+    expect(currentBreak(settings, new Date(at))).toBeNull();
+    expect(currentBreak(settings, new Date(at + 9 * minute))).toBeNull();
   });
 
-  it("is closed from ten minutes before the prayer", () => {
-    expect(currentBreak(settings, new Date(at - 10 * minute))?.label).toBe("الظهر");
+  it("is closed from ten minutes after the adhan", () => {
+    expect(currentBreak(settings, new Date(at + 10 * minute))?.label).toBe("الظهر");
+  });
+
+  it("is already closed ten minutes before maghrib", () => {
+    const maghrib = todaysPrayers(settings, noon)[3];
+    const m = new Date(maghrib.at).getTime();
+    expect(currentBreak(settings, new Date(m - 11 * minute))).toBeNull();
+    expect(currentBreak(settings, new Date(m - 10 * minute))?.label).toBe("المغرب");
+    expect(currentBreak(settings, new Date(m))?.label).toBe("المغرب");
   });
 
   it("is still closed thirty-nine minutes after", () => {
@@ -88,6 +108,6 @@ describe("currentBreak", () => {
   });
 
   it("never closes when prayer breaks are off", () => {
-    expect(currentBreak({ ...settings, prayerBreaks: false }, new Date(at))).toBeNull();
+    expect(currentBreak({ ...settings, prayerBreaks: false }, new Date(at + 20 * minute))).toBeNull();
   });
 });

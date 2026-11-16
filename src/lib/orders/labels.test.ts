@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatClock, formatInstant, minutesText } from "./labels";
+import { formatClock, formatInstant, minutesText, prayerNowText } from "./labels";
 
 describe("formatClock", () => {
   it.each([
@@ -34,5 +34,12 @@ describe("minutesText", () => {
     [60, "60 دقيقة"],
   ])("says %i minutes as %s", (n, text) => {
     expect(minutesText(n)).toBe(text);
+  });
+});
+
+describe("prayerNowText", () => {
+  it("announces the prayer the café is closed for", () => {
+    expect(prayerNowText("الظهر")).toBe("حان الآن وقت صلاة الظهر");
+    expect(prayerNowText("الجمعة")).toBe("حان الآن وقت صلاة الجمعة");
   });
 });

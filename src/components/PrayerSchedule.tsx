@@ -1,7 +1,7 @@
 "use client";
 
 import { Clock, MoonStar } from "lucide-react";
-import { formatClock, formatInstant, minutesText } from "@/lib/orders/labels";
+import { formatClock, formatInstant, minutesText, prayerNowText } from "@/lib/orders/labels";
 import type { OrderingInfo } from "@/lib/orders/ordering-info";
 import { useOrderingInfo } from "@/lib/useOrderingInfo";
 
@@ -15,7 +15,7 @@ export function hoursText(info: OrderingInfo): string {
 export function closedText(info: OrderingInfo): string | null {
   switch (info.state) {
     case "prayer":
-      return `مغلق الآن لصلاة ${info.label}، ويفتح الساعة ${formatInstant(info.reopensAt!)}`;
+      return `${prayerNowText(info.label!)}. نفتح الساعة ${formatInstant(info.reopensAt!)}`;
     case "closed":
       return `مغلق الآن. ساعات العمل ${hoursText(info)}`;
     case "paused":
@@ -47,7 +47,8 @@ export function PrayerSchedule({ compact = false }: { compact?: boolean }) {
           <p className="mt-0.5 text-xs text-zinc-400">{hoursText(info)}</p>
           {info.prayerBreaks && (
             <p className="mt-0.5 text-xs text-zinc-500">
-              يغلق قبل كل صلاة بـ{minutesText(info.minutesBefore)}، ويفتح بعدها بـ{minutesText(info.minutesAfter)}
+              يغلق بعد كل أذان بـ{minutesText(info.closeAfterAdhan)} (المغرب: قبل الأذان بـ
+              {minutesText(info.maghribBefore)})، ويفتح بعد الأذان بـ{minutesText(info.minutesAfter)}
             </p>
           )}
         </div>
@@ -108,7 +109,26 @@ export function PrayerSchedule({ compact = false }: { compact?: boolean }) {
 /** A notice at the top of the menu while ordering is closed. Hidden while open. */
 export function ClosedBanner() {
   const { info } = useOrderingInfo();
-  const text = info ? closedText(info) : null;
+  if (!info) return null;
+
+  // Prayer time gets its own, larger announcement.
+  if (info.state === "prayer") {
+    return (
+      <div
+        role="status"
+        className="motion-overlay-in mx-4 mt-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 px-5 py-5 text-center"
+      >
+        <MoonStar className="mx-auto h-7 w-7 text-amber-400" />
+        <p className="mt-2 text-xl font-black text-amber-100">{prayerNowText(info.label!)}</p>
+        <p className="mt-1 text-sm font-semibold text-amber-200">
+          نفتح الساعة {formatInstant(info.reopensAt!)}
+        </p>
+        <p className="mt-2 text-xs text-zinc-400">تقدر تتصفح القائمة وتجهّز سلتك لين نفتح.</p>
+      </div>
+    );
+  }
+
+  const text = closedText(info);
   if (!text) return null;
   return (
     <p

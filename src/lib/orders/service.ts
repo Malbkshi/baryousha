@@ -37,8 +37,16 @@ type CreateResult = { ok: true; order: Order } | { ok: false; error: OrderError 
 const refuse = (error: OrderError): CreateResult => ({ ok: false, error });
 
 export async function getSettings(store: Store): Promise<Settings> {
-  const stored = await store.getDoc<Partial<Settings>>("settings");
-  return { ...DEFAULT_SETTINGS, ...(stored ?? {}) };
+  const stored = (await store.getDoc<Partial<Settings>>("settings")) ?? {};
+  // Only the fields this version knows: a saved document may carry ones
+  // left over from an older version.
+  const settings = { ...DEFAULT_SETTINGS };
+  for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[]) {
+    if (typeof stored[key] === typeof DEFAULT_SETTINGS[key]) {
+      (settings as Record<keyof Settings, unknown>)[key] = stored[key];
+    }
+  }
+  return settings;
 }
 
 /** Merges repeated ids and checks every quantity. Null when the list is unusable. */

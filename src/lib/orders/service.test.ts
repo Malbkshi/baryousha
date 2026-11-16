@@ -128,18 +128,18 @@ describe("createOrder", () => {
   });
 
   it("refuses while the café is closed for prayer, and says when it reopens", async () => {
-    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 });
+    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, closeAfterAdhan: 10, maghribBefore: 10, minutesAfter: 40 });
     const settings = await getSettings(store);
     const dhuhr = todaysPrayers(settings, noon)[1];
-    const error = await errorOf({}, new Date(dhuhr.at));
+    const error = await errorOf({}, new Date(dhuhr.from!));
     expect(error).toEqual({ code: "prayer", label: "الظهر", reopensAt: dhuhr.until });
   });
 
   it("refuses a pickup time inside a prayer closure", async () => {
-    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, minutesBefore: 10, minutesAfter: 40 });
+    await store.setDoc("settings", { openTime: "00:00", closeTime: "00:00", prayerBreaks: true, closeAfterAdhan: 10, maghribBefore: 10, minutesAfter: 40 });
     const settings = await getSettings(store);
     const dhuhr = todaysPrayers(settings, noon)[1];
-    const local = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Tripoli", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(dhuhr.at));
+    const local = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Tripoli", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(dhuhr.from!));
     expect(await errorOf({ pickupTime: local })).toEqual({ code: "invalid", field: "pickup" });
   });
 
@@ -240,8 +240,22 @@ describe("getSettings", () => {
       openTime: "00:00",
       closeTime: "00:00",
       prayerBreaks: true,
-      minutesBefore: 10,
+      closeAfterAdhan: 10,
+      maghribBefore: 10,
       minutesAfter: 40,
+    });
+  });
+  it("drops fields left over from an older version", async () => {
+    const fresh = new MemoryStore();
+    await fresh.setDoc("settings", { minutesBefore: 10, minutesAfter: 30, somethingElse: true });
+    expect(await getSettings(fresh)).toEqual({
+      acceptingOrders: true,
+      openTime: "00:00",
+      closeTime: "00:00",
+      prayerBreaks: true,
+      closeAfterAdhan: 10,
+      maghribBefore: 10,
+      minutesAfter: 30,
     });
   });
   it("fills what a stored document is missing", async () => {
