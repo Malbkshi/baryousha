@@ -3,7 +3,7 @@ export const CAFE = {
   nameAr: "مقهى البريوشة",
   nameEn: "Albaryosha Café",
   address: "طرابلس، السياحية",
-  phone: "091 123 4567",
+  phone: "091-0402500",
 } as const;
 
 export const telHref = (phone: string) => `tel:${phone.replace(/\s+/g, "")}`;

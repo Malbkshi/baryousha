@@ -35,3 +35,11 @@ export function formatClock(time: string): string {
 export function formatInstant(iso: string): string {
   return clockFromMinutes(tripoliMinutes(new Date(iso)));
 }
+
+/** A number of minutes in Arabic: "دقيقة"، "دقيقتين"، "5 دقائق"، "40 دقيقة". */
+export function minutesText(n: number): string {
+  if (n === 1) return "دقيقة";
+  if (n === 2) return "دقيقتين";
+  if (n >= 3 && n <= 10) return `${n} دقائق`;
+  return `${n} دقيقة`;
+}

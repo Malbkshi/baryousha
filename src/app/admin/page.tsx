@@ -161,7 +161,7 @@ export default function AdminPage() {
         {tab === "menu" && <MenuEditor onSignedOut={signedOut} />}
         {tab === "settings" &&
           (settings ? (
-            <SettingsPanel key={`${settings.openTime}-${settings.closeTime}`} settings={settings} onSave={saveSettings} />
+            <SettingsPanel settings={settings} onSave={saveSettings} />
           ) : (
             <p className="py-16 text-center text-sm text-zinc-500">جارٍ تحميل الإعدادات</p>
           ))}

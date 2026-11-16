@@ -5,18 +5,15 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Banknote, Loader2, X } from "lucide-react";
 import { formatPrice } from "@/lib/formatPrice";
 import { formatClock } from "@/lib/orders/labels";
+import type { OrderingInfo } from "@/lib/orders/ordering-info";
+import { closedText } from "../PrayerSchedule";
 import { LIMITS } from "@/lib/orders/types";
 import { useLocalStore } from "@/lib/localStore";
 import { useDialog } from "@/lib/useDialog";
 import { customerStore, lastOrderStore, useCart } from "./CartContext";
 import { QtyStepper } from "./QtyStepper";
 
-type Ordering = {
-  state: "open" | "paused" | "closed" | "unavailable";
-  openTime: string;
-  closeTime: string;
-  slots: string[];
-};
+type Ordering = OrderingInfo;
 
 type Field = "name" | "phone" | "pickup" | "items" | "note" | "form";
 type Problem = { field: Field; message: string };
@@ -24,6 +21,7 @@ type Problem = { field: Field; message: string };
 type ApiError =
   | { code: "invalid"; field: Exclude<Field, "form"> }
   | { code: "unavailable"; itemIds: string[] }
+  | { code: "prayer"; label: string; reopensAt: string }
   | { code: "paused" | "closed" | "too-many-active" | "server" };
 
 const FIELD_MESSAGE: Record<Exclude<Field, "form">, string> = {
@@ -37,15 +35,24 @@ const FIELD_MESSAGE: Record<Exclude<Field, "form">, string> = {
 const RETRY_MESSAGE = "تعذر إرسال الطلب. تأكد من الإنترنت وحاول مرة أخرى.";
 
 function closedMessage(ordering: Ordering): string {
-  switch (ordering.state) {
-    case "paused":
-      return "المقهى أوقف استقبال الطلبات مؤقتًا. حاول بعد قليل.";
-    case "closed":
-      return `المقهى مغلق الآن. الطلب متاح من ${formatClock(ordering.openTime)} إلى ${formatClock(ordering.closeTime)}.`;
-    default:
-      return "الطلب من الموقع غير متاح حاليًا. تقدر تطلب من المقهى مباشرة.";
-  }
+  if (ordering.state === "paused") return "المقهى أوقف استقبال الطلبات مؤقتًا. حاول بعد قليل.";
+  if (ordering.state === "unavailable") return "الطلب من الموقع غير متاح حاليًا. تقدر تطلب من المقهى مباشرة.";
+  return `${closedText(ordering)}.`;
 }
+
+const UNAVAILABLE: Ordering = {
+  state: "unavailable",
+  label: null,
+  reopensAt: null,
+  openTime: "00:00",
+  closeTime: "00:00",
+  allDay: true,
+  prayerBreaks: false,
+  minutesBefore: 0,
+  minutesAfter: 0,
+  prayers: [],
+  slots: [],
+};
 
 function newRef(): string {
   return typeof crypto.randomUUID === "function"
@@ -89,7 +96,7 @@ function CheckoutPanel({ onClose }: { onClose: () => void }) {
       })
       .catch(() => {
         if (!cancelled) {
-          setOrdering({ state: "unavailable", openTime: "08:00", closeTime: "23:00", slots: [] });
+          setOrdering((current) => (current ? { ...current, state: "unavailable", slots: [] } : UNAVAILABLE));
         }
       });
     return () => {
@@ -156,6 +163,10 @@ function CheckoutPanel({ onClose }: { onClose: () => void }) {
           ? `لم تعد متوفرة وحذفناها من السلة: ${names.join("، ")}.`
           : "بعض الأصناف لم تعد متوفرة وحذفناها من السلة.",
       });
+    } else if (error?.code === "prayer") {
+      // Prayer time began while the form was open.
+      const { label, reopensAt } = error;
+      setOrdering((current) => (current ? { ...current, state: "prayer", label, reopensAt, slots: [] } : current));
     } else if (error?.code === "paused" || error?.code === "closed") {
       // The café's state changed while the form was open: show it as it is now.
       const state = error.code;

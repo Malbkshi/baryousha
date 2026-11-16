@@ -10,67 +10,73 @@
           "id": "c1",
           "nameEn": "Tripolitan",
           "nameAr": "بريوشة طرابلسية",
-          "price": 6,
-          "note": "زبدة · عسل · لوز"
+          "price": 7,
+          "note": "زبدة · عسل · لوز",
+          "image": "/images/items/c1.jpg"
         },
         {
           "id": "c2",
           "nameEn": "Nutella",
           "nameAr": "نوتيلا",
-          "price": 6,
+          "price": 7,
           "note": "زبدة · لوز",
-          "image": "/images/brioche-nutella-almond.jpg",
+          "image": "/images/items/c2.jpg",
           "hidden": false
         },
         {
           "id": "c3",
           "nameEn": "Philadelphia + Thyme",
           "nameAr": "فيلادلفيا وزعتر",
-          "price": 8,
+          "price": 9,
           "note": "عسل · زعتر",
-          "image": "/images/brioche-philadelphia-zaatar.jpg"
+          "image": "/images/items/c3.jpg"
         },
         {
           "id": "c4",
           "nameEn": "Philadelphia + Cashew",
           "nameAr": "فيلادلفيا وكاجو",
-          "price": 10,
-          "note": "عسل · كاجو"
+          "price": 14,
+          "note": "عسل · كاجو",
+          "image": "/images/items/c4.jpg"
         },
         {
           "id": "c5",
           "nameEn": "Hazelnuts",
           "nameAr": "بندق",
-          "price": 8,
-          "note": "زبدة · عسل"
+          "price": 14,
+          "note": "زبدة · عسل",
+          "image": "/images/items/c5.jpg"
         },
         {
           "id": "c6",
           "nameEn": "Hazelnuts + Nutella",
           "nameAr": "بندق ونوتيلا",
-          "price": 9,
+          "price": 16,
           "note": "عسل · نوتيلا",
-          "image": "/images/brioche-nutella-hazelnut.jpg"
+          "image": "/images/items/c6.jpg"
         },
         {
           "id": "c7",
           "nameEn": "Pistachio",
           "nameAr": "فستق",
-          "price": 10,
-          "note": "زبدة · عسل"
+          "price": 19,
+          "note": "زبدة · عسل",
+          "image": "/images/items/c7.jpg"
         },
         {
           "id": "c8",
           "nameEn": "Pistachio + Nutella",
           "nameAr": "فستق ونوتيلا",
-          "price": 14,
-          "note": "عسل · نوتيلا"
+          "price": 20,
+          "note": "عسل · نوتيلا",
+          "image": "/images/items/c8.jpg"
         },
         {
           "id": "c9",
           "nameEn": "Croissant Full",
           "nameAr": "بريوش كامل",
-          "price": 15
+          "price": 20,
+          "image": "/images/items/c9.jpg"
         }
       ]
     },
@@ -84,64 +90,64 @@
           "id": "m1",
           "nameEn": "Strawberry",
           "nameAr": "فراولة",
-          "price": 6,
-          "image": "/images/milkshake-strawberry.jpg"
+          "price": 7,
+          "image": "/images/items/m1.jpg"
         },
         {
           "id": "m2",
           "nameEn": "Banana",
           "nameAr": "موز",
-          "price": 6,
-          "image": "/images/milkshake-banana.jpg"
+          "price": 7,
+          "image": "/images/items/m2.jpg"
         },
         {
           "id": "m3",
           "nameEn": "Date & Almond",
           "nameAr": "تمر ولوز",
-          "price": 6,
-          "image": "/images/milkshake-date.jpg"
+          "price": 7,
+          "image": "/images/items/m3.jpg"
         },
         {
           "id": "m4",
           "nameEn": "Mango",
           "nameAr": "مانجو",
-          "price": 6,
-          "image": "/images/milkshake-mango.jpg"
+          "price": 7,
+          "image": "/images/items/m4.jpg"
         },
         {
           "id": "m5",
           "nameEn": "Mango & Strawberry",
           "nameAr": "مانجو وفراولة",
-          "price": 6,
-          "image": "/images/milkshake-mixed-mango-strawberry.jpg"
+          "price": 7,
+          "image": "/images/items/m5.jpg"
         },
         {
           "id": "m6",
           "nameEn": "Strawberry, Date & Almond",
           "nameAr": "فراولة وتمر ولوز",
-          "price": 6,
-          "image": "/images/milkshake-strawberry.jpg"
+          "price": 7,
+          "image": "/images/items/m6.jpg"
         },
         {
           "id": "m7",
           "nameEn": "Mango & Banana",
           "nameAr": "مانجو وموز",
-          "price": 6,
-          "image": "/images/milkshake-mango.jpg"
+          "price": 7,
+          "image": "/images/items/m7.jpg"
         },
         {
           "id": "m8",
           "nameEn": "Mango, Date & Almond",
           "nameAr": "مانجو وتمر ولوز",
-          "price": 6,
-          "image": "/images/milkshake-mango.jpg"
+          "price": 7,
+          "image": "/images/items/m8.jpg"
         },
         {
           "id": "m9",
           "nameEn": "Banana, Date & Almond",
           "nameAr": "موز وتمر ولوز",
-          "price": 6,
-          "image": "/images/milkshake-banana.jpg"
+          "price": 7,
+          "image": "/images/items/m9.jpg"
         }
       ]
     },
@@ -155,50 +161,50 @@
           "id": "j1",
           "nameEn": "Strawberry",
           "nameAr": "فراولة",
-          "price": 7,
-          "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80"
+          "price": 8,
+          "image": "/images/items/j1.jpg"
         },
         {
           "id": "j2",
           "nameEn": "Mango",
           "nameAr": "مانجو",
-          "price": 8,
-          "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=800&q=80"
+          "price": 10,
+          "image": "/images/items/j2.jpg"
         },
         {
           "id": "j3",
           "nameEn": "Kiwi",
           "nameAr": "كيوي",
-          "price": 9,
-          "image": "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?w=800&q=80"
+          "price": 15,
+          "image": "/images/items/j3.jpg"
         },
         {
           "id": "j4",
           "nameEn": "Lemon & Mint",
           "nameAr": "ليمون ونعناع",
-          "price": 6,
-          "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+          "price": 8,
+          "image": "/images/items/j4.jpg"
         },
         {
           "id": "j5",
           "nameEn": "Mango & Lemon",
           "nameAr": "مانجو وليمون",
-          "price": 7,
-          "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=800&q=80"
+          "price": 10,
+          "image": "/images/items/j5.jpg"
         },
         {
           "id": "j6",
           "nameEn": "Cocktail",
           "nameAr": "كوكتيل",
-          "price": 8,
-          "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80"
+          "price": 16,
+          "image": "/images/items/j6.jpg"
         },
         {
           "id": "j7",
           "nameEn": "Seasonal fruits",
           "nameAr": "فواكه موسمية",
-          "price": 8,
-          "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80"
+          "price": 12,
+          "image": "/images/items/j7.jpg"
         }
       ]
     },
@@ -212,57 +218,57 @@
           "id": "jL1",
           "nameEn": "Strawberry",
           "nameAr": "فراولة",
-          "price": 15,
-          "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80"
+          "price": 21,
+          "image": "/images/items/jL1.jpg"
         },
         {
           "id": "jL2",
           "nameEn": "Date & Almond",
           "nameAr": "تمر ولوز",
-          "price": 15,
-          "image": "https://images.unsplash.com/photo-1553177595-4de2bb0842b9?w=800&q=80"
+          "price": 21,
+          "image": "/images/items/jL2.jpg"
         },
         {
           "id": "jL3",
           "nameEn": "Lemon & Mint",
           "nameAr": "ليمون ونعناع",
-          "price": 15,
-          "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+          "price": 21,
+          "image": "/images/items/jL3.jpg"
         },
         {
           "id": "jL4",
           "nameEn": "Seasonal juices",
           "nameAr": "عصائر موسمية",
-          "price": 20,
-          "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80"
+          "price": 14,
+          "image": "/images/items/jL4.jpg"
         },
         {
           "id": "jL5",
           "nameEn": "Mango",
           "nameAr": "مانجو",
-          "price": 20,
-          "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=800&q=80"
+          "price": 25,
+          "image": "/images/items/jL5.jpg"
         },
         {
           "id": "jL6",
           "nameEn": "Kiwi",
           "nameAr": "كيوي",
-          "price": 25,
-          "image": "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?w=800&q=80"
+          "price": 35,
+          "image": "/images/items/jL6.jpg"
         },
         {
           "id": "jL7",
           "nameEn": "Avocado",
           "nameAr": "أفوكادو",
-          "price": 25,
-          "image": "https://images.unsplash.com/photo-1604085792782-8d92f276d7d8?w=800&q=80"
+          "price": 40,
+          "image": "/images/items/jL7.jpg"
         },
         {
           "id": "jL8",
           "nameEn": "Avocado Full",
           "nameAr": "أفوكادو كامل",
-          "price": 32,
-          "image": "https://images.unsplash.com/photo-1604085792782-8d92f276d7d8?w=800&q=80"
+          "price": 45,
+          "image": "/images/items/jL8.jpg"
         }
       ]
     },
@@ -277,84 +283,84 @@
           "nameEn": "Café",
           "nameAr": "قهوة",
           "price": 3,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "image": "/images/items/cf1.jpg"
         },
         {
           "id": "cf2",
           "nameEn": "Café (Double)",
           "nameAr": "قهوة دبل",
-          "price": 4,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 5,
+          "image": "/images/items/cf2.jpg"
         },
         {
           "id": "cf3",
           "nameEn": "Nescafé",
           "nameAr": "نسكافيه",
           "price": 3,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "image": "/images/items/cf3.jpg"
         },
         {
           "id": "cf4",
           "nameEn": "Nescafé (Double)",
           "nameAr": "نسكافيه دبل",
-          "price": 4,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 5,
+          "image": "/images/items/cf4.jpg"
         },
         {
           "id": "cf5",
           "nameEn": "Nescafé Almond-Nutella",
           "nameAr": "نسكافيه لوز ونوتيلا",
-          "price": 6,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 8,
+          "image": "/images/items/cf5.jpg"
         },
         {
           "id": "cf6",
           "nameEn": "Nescafé Double Almond-Nutella",
           "nameAr": "نسكافيه دبل لوز ونوتيلا",
-          "price": 8,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 10,
+          "image": "/images/items/cf6.jpg"
         },
         {
           "id": "cf7",
           "nameEn": "Italian Cappuccino",
           "nameAr": "كابتشينو إيطالي",
-          "price": 4,
-          "image": "/images/premium_coffee.png"
+          "price": 5,
+          "image": "/images/items/cf7.jpg"
         },
         {
           "id": "cf8",
           "nameEn": "Cappuccino",
           "nameAr": "كابتشينو",
           "price": 3,
-          "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80"
+          "image": "/images/items/cf8.jpg"
         },
         {
           "id": "cf9",
           "nameEn": "Arabic Café",
           "nameAr": "قهوة عربية",
-          "price": 3,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 4,
+          "image": "/images/items/cf9.jpg"
         },
         {
           "id": "cf10",
           "nameEn": "Arabic Café (Double)",
           "nameAr": "قهوة عربية دبل",
-          "price": 5,
-          "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          "price": 6,
+          "image": "/images/items/cf10.jpg"
         },
         {
           "id": "cf11",
           "nameEn": "Cappuccino Canned Milk",
           "nameAr": "كابتشينو حليب معلب",
           "price": 5,
-          "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80"
+          "image": "/images/items/cf11.jpg"
         },
         {
           "id": "cf12",
           "nameEn": "Moroccan Tea",
           "nameAr": "شاي مغربي",
-          "price": 2,
-          "image": "https://images.unsplash.com/photo-1576092762791-dd9e2220c4af?w=800&q=80"
+          "price": 3,
+          "image": "/images/items/cf12.jpg"
         }
       ]
     },
@@ -368,22 +374,22 @@
           "id": "a1",
           "nameEn": "Avocado",
           "nameAr": "أفوكادو",
-          "price": 12,
-          "image": "https://images.unsplash.com/photo-1604085792782-8d92f276d7d8?w=800&q=80"
+          "price": 14,
+          "image": "/images/items/a1.jpg"
         },
         {
           "id": "a2",
           "nameEn": "Avocado Honey-Almond",
           "nameAr": "أفوكادو عسل ولوز",
-          "price": 8,
-          "image": "https://images.unsplash.com/photo-1604085792782-8d92f276d7d8?w=800&q=80"
+          "price": 10,
+          "image": "/images/items/a2.jpg"
         },
         {
           "id": "a3",
           "nameEn": "Avocado Nutella",
           "nameAr": "أفوكادو نوتيلا",
-          "price": 15,
-          "image": "https://images.unsplash.com/photo-1604085792782-8d92f276d7d8?w=800&q=80"
+          "price": 18,
+          "image": "/images/items/a3.jpg"
         }
       ]
     },
@@ -397,15 +403,15 @@
           "id": "y1",
           "nameEn": "Yogurt",
           "nameAr": "زبادي",
-          "price": 3,
-          "image": "https://images.unsplash.com/photo-1515006622432-6a683e601bf1?w=800&q=80"
+          "price": 4,
+          "image": "/images/items/y1.jpg"
         },
         {
           "id": "y2",
           "nameEn": "Yogurt Honey-Almond",
           "nameAr": "زبادي عسل ولوز",
-          "price": 6,
-          "image": "https://images.unsplash.com/photo-1515006622432-6a683e601bf1?w=800&q=80"
+          "price": 7,
+          "image": "/images/items/y2.jpg"
         }
       ]
     }
@@ -415,25 +421,25 @@
       "image": "/images/hero-zaatar.jpg",
       "titleAr": "بريوش فيلادلفيا وزعتر",
       "titleEn": "Philadelphia & Za'atar Croissant",
-      "price": 8
+      "price": 9
     },
     {
       "image": "/images/hero-nutella.jpg",
       "titleAr": "بريوش نوتيلا وبندق",
       "titleEn": "Nutella & Hazelnut Croissant",
-      "price": 9
+      "price": 16
     },
     {
       "image": "/images/premium_milkshake.png",
       "titleAr": "فروبي فراولة فاخر",
       "titleEn": "Premium Strawberry Milkshake",
-      "price": 6
+      "price": 7
     },
     {
       "image": "/images/premium_coffee.png",
       "titleAr": "كابتشينو إيطالي أصيل",
       "titleEn": "Authentic Italian Cappuccino",
-      "price": 4
+      "price": 5
     }
   ]
 }

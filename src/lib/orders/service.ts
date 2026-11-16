@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import type { MenuData, MenuItem } from "@/data/menu";
 import type { Store } from "@/lib/store/types";
-import { checkPickupTime, isOpen } from "./hours";
+import { checkPickupTime, orderingState } from "./hours";
 import { normalizePhone } from "./phone";
 import { applyAction, type StaffAction } from "./status";
 import {
@@ -20,7 +20,8 @@ export type OrderError =
   | { code: "paused" }
   | { code: "invalid"; field: "name" | "phone" | "pickup" | "items" | "note" }
   | { code: "unavailable"; itemIds: string[] }
-  | { code: "too-many-active" };
+  | { code: "too-many-active" }
+  | { code: "prayer"; label: string; reopensAt: string };
 
 export type CreateInput = {
   clientRef: string;
@@ -101,7 +102,11 @@ export async function createOrder(
 
   const settings = await getSettings(store);
   if (!settings.acceptingOrders) return refuse({ code: "paused" });
-  if (!isOpen(settings, now)) return refuse({ code: "closed" });
+  const open = orderingState(settings, now);
+  if (open.state === "closed") return refuse({ code: "closed" });
+  if (open.state === "prayer") {
+    return refuse({ code: "prayer", label: open.label!, reopensAt: open.reopensAt! });
+  }
 
   const pickupTime = input.pickupTime ?? null;
   if (pickupTime !== null) {
